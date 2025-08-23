@@ -47,7 +47,7 @@ python simulation/main.py
 - The simulation ends when either herbivores or predators are extinct.
 
 ## Example Output
-
+```
 MOVE: 🐰 at (14, 0) -> (14, 1)
 ATTACK: 🐺 at (11, 8) ⚔️  🐰 at (10, 8) and dealt 50 damage
 MOVE: 🐺 at (5, 3) -> (5, 2)
@@ -63,9 +63,9 @@ ADD: 🌿 added to (4, 4)
 🟫🌿🟫🐺🟫🟫🟫🟫🟫🟫🟫🗿🌳🌳🟫
 🗿🌿🟫🟫🌿🟫🟫🌿🟫🟫🐰🐺🟫🟫🟫
 🌿🟫🌿🟫🟫🗿🟫🟫🗿🟫🟫🟫🌿🟫🟫
-
+```
 ## Project Structure
-
+```
 simulation/
 ├── actions/                # Game actions organized by phase
 │   ├── init/               # Initialization actions
@@ -82,7 +82,7 @@ simulation/
 ├── config.py               # Simulation configuration
 ├── simulation.py           # Main simulation controller
 └── main.py                 # Entry point
-
+```
 ## Configuration
 
 Edit `simulation/config.py` for experiments:
