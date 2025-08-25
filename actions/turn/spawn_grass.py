@@ -36,4 +36,6 @@ class SpawnGrassAction(Action):
                     grown_grass_coords.append(f"({x}, {y})")
         if grown_grass_coords:
             coords_str = ", ".join(grown_grass_coords)
-            game_logger.log(f"ADD: {grass.symbol} added to {coords_str}")
+            game_logger.log(
+                f"ADD: {config.grass_symbol} added to {coords_str}"
+            )
