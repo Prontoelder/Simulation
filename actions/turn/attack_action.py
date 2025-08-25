@@ -18,8 +18,9 @@ class AttackAction:
     ) -> bool:
         """Attacker tries to attack creature at target_coord."""
         target_entity = world_map.get_entity(target_coord)
+
         if (
-            not target_entity
+            not isinstance(target_entity, Creature)
             or target_entity.entity_type != attacker.get_target_type()
         ):
             return False
