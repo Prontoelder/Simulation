@@ -2,9 +2,10 @@ from logging import game_logger
 from typing import TYPE_CHECKING
 
 from config import config
+from entities.base import Creature
+
 
 if TYPE_CHECKING:
-    from entities.base import Creature
     from world import Coordinate, Map
 
 
@@ -31,7 +32,7 @@ class AttackAction:
         game_logger.log(
             f"ATTACK: {attacker.symbol} at {from_coord} "
             f"{config.attack_symbol}  {target_entity.symbol} "
-            f"at {target_coord} and dealt {int(damage)} damage"
+            f"at {target_coord} and deal {int(damage)} damage"
         )
 
         if not target_entity.is_alive():
