@@ -1,5 +1,5 @@
-from actions.turn.eat_action import EatAction
 from config import config
+from entities.actions import EatAction
 from entities.base import Creature
 from utils import EntityType
 from world import Coordinate, Map

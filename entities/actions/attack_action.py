@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 from config import config
 from entities.base import Creature
 
-
 if TYPE_CHECKING:
     from world import Coordinate, Map
 

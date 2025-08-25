@@ -1,5 +1,5 @@
-from actions.turn.attack_action import AttackAction
 from config import config
+from entities.actions import AttackAction
 from entities.base import Creature
 from utils import EntityType
 from world import Coordinate, Map

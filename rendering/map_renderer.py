@@ -41,38 +41,6 @@ class MapRenderer:
         for message in game_logger.get_messages_and_clear():
             print(message)
 
-    # @staticmethod
-    # def render_map(world_map: "Map") -> None:
-    #     """Prints the game map."""
-    #     for y in range(world_map.height):
-    #         row = []
-    #         for x in range(world_map.width):
-    #             entity = world_map.get_entity(Coordinate(x, y))
-    #             row.append(
-    #                 entity.symbol if entity else config.empty_cell_symbol
-    #             )
-    #         print("".join(row))
-
-    # @staticmethod
-    # def render_map(world_map: "Map") -> None:
-    #     """Prints the game map with row and column numbers."""
-    #     col_numbers = "      " + "  ".join(
-    #         f"{x:2}" for x in range(world_map.width)
-    #     )
-    #     separator = "    " + "-" * (world_map.width * 4)
-    #     print(separator)
-    #     print(col_numbers)
-    #     print(separator)
-
-    #     for y in range(world_map.height):
-    #         row = []
-    #         for x in range(world_map.width):
-    #             entity = world_map.get_entity(Coordinate(x, y))
-    #             row.append(
-    #                 entity.symbol if entity else config.empty_cell_symbol
-    #             )
-    #         print(f"{y:2} |  " + "  ".join(row))
-
     @staticmethod
     def render_map(world_map: "Map") -> None:
         """
