@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from actions import Action
-from utils import EntityType
+from entities import Creature
 
 if TYPE_CHECKING:
     from world.map import Map
@@ -15,5 +15,5 @@ class MoveCreaturesAction(Action):
         )
 
         for coord, entity in entities_with_coords:
-            if entity.entity_type in EntityType.creatures():
+            if isinstance(entity, Creature):
                 entity.make_move(coord, world_map)
