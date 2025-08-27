@@ -71,6 +71,7 @@ simulation/
 │   ├── init/               # Initialization actions
 │   └── turn/               # Turn-based actions
 ├── entities/               # All game entities
+│   ├── actions/            # Entity actions
 │   ├── base/               # Base entity classes
 │   ├── static/             # Static entities (grass, rocks, trees)
 │   └── entity_factory.py   # Entity creation factory
