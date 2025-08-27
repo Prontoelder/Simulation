@@ -9,7 +9,6 @@ from actions.turn import (
 )
 from config import config
 from rendering import MapRenderer
-from utils import EntityType
 from utils.menu import (
     show_pause_menu,
     show_step_menu,
@@ -30,7 +29,6 @@ class Simulation:
         ]
         self.turn_count = 0
         self._is_stopped = False
-        self._is_paused = False
 
     def start_simulation(self, mode: str) -> None:
         """
@@ -50,7 +48,7 @@ class Simulation:
         elif mode == "auto":
             self._run_auto_mode()
 
-        print("\n=== Simulation completed ===")
+        print("\n=== Simulation end ===\n")
         if self._is_stopped:
             print("Simulation stopped by user.")
         else:
@@ -76,9 +74,24 @@ class Simulation:
         """Stop the simulation."""
         self._is_stopped = True
 
+    @staticmethod
+    def _show_step_menu() -> str:
+        """Show the step mode menu and get user choice."""
+        return show_step_menu()
+
+    @staticmethod
+    def _show_pause_menu() -> str:
+        """Show the pause menu and get user choice."""
+        return show_pause_menu()
+
+    @property
+    def _is_running(self) -> bool:
+        """Check if the simulation should continue running."""
+        return not self._is_stopped and self._is_simulation_running
+
     def _run_step_mode(self) -> None:
         """Run simulation in step-by-step mode with user control."""
-        while self._is_running():
+        while self._is_running:
             choice = self._show_step_menu()
 
             if choice in {"1", ""}:
@@ -88,10 +101,6 @@ class Simulation:
                 break
             else:
                 print("Invalid choice. Please try again.")
-
-    def _show_step_menu(self) -> str:
-        """Show the step mode menu and get user choice."""
-        return show_step_menu()
 
     def _run_auto_mode(self) -> None:
         """Run simulation in automatic mode with pause capability."""
@@ -105,7 +114,7 @@ class Simulation:
         with keyboard interrupt handling for pausing.
         """
         try:
-            while self._is_running():
+            while self._is_running:
                 self.next_turn(with_delay=True)
         except KeyboardInterrupt:
             self._handle_pause_menu()
@@ -127,14 +136,7 @@ class Simulation:
             else:
                 print("Invalid choice. Please try again.")
 
-    def _show_pause_menu(self) -> str:
-        """Show the pause menu and get user choice."""
-        return show_pause_menu()
-
-    def _is_running(self) -> bool:
-        """Check if the simulation should continue running."""
-        return not self._is_stopped and self._is_simulation_running()
-
+    @property
     def _is_simulation_running(self) -> bool:
         """
         Check if simulation conditions are met to continue.
@@ -142,25 +144,15 @@ class Simulation:
         Returns:
             True if both herbivores and predators exist, False otherwise
         """
-        herbivore_count = len(
-            self.world_map.get_entity_by_type(EntityType.HERBIVORE)
-        )
-        predator_count = len(
-            self.world_map.get_entity_by_type(EntityType.PREDATOR)
-        )
-        return herbivore_count > 0 and predator_count > 0
+        herbivores, predators = self.world_map.get_creatures_count()
+        return herbivores > 0 and predators > 0
 
     def _get_simulation_end_message(self) -> str:
         """Get appropriate simulation end message based on final state."""
-        herbivore_count = len(
-            self.world_map.get_entity_by_type(EntityType.HERBIVORE)
-        )
-        predator_count = len(
-            self.world_map.get_entity_by_type(EntityType.PREDATOR)
-        )
+        herbivores, predators = self.world_map.get_creatures_count()
 
-        if herbivore_count == 0:
+        if herbivores == 0:
             return "All herbivores were eaten. Predators won!"
-        if predator_count == 0:
+        if predators == 0:
             return "All predators died. Herbivores survived!"
         return "Simulation completed."
