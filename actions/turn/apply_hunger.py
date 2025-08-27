@@ -19,8 +19,9 @@ class ApplyHungerAction(Action):
         for coord, entity in entities_with_coords:
             if isinstance(entity, Creature):
                 entity.take_damage(config.hunger_hp_loss_per_turn)
-                if not entity.is_alive():
+                if not entity.is_alive:
                     game_logger.log(
-                        f"DEATH: {entity.symbol} at {coord} died of starvation"
+                        f"DEATH (starvation): {entity.symbol} {coord} "
+                        f"{config.death_symbol}"
                     )
                     world_map.remove_entity(coord)
