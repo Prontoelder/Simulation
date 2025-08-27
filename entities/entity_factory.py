@@ -24,5 +24,5 @@ class EntityFactory:
         Creates and returns an instance of an entity of the specified type.
         """
         if entity_type not in cls._registry:
-            raise ValueError
+            raise ValueError(f"Entity type {entity_type} is not registered")
         return cls._registry[entity_type]()
