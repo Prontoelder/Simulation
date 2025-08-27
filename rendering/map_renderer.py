@@ -17,7 +17,7 @@ class MapRenderer:
         """Prints the full simulation frame: header, logs, and map."""
         MapRenderer._clear_console()
         MapRenderer._print_header(turn_count)
-        MapRenderer._print_game_logs()
+        game_logger.print_game_logs()
         MapRenderer.render_map(world_map)
 
     @staticmethod
@@ -29,17 +29,11 @@ class MapRenderer:
     def _print_header(turn_count: int) -> None:
         """Prints the header with the turn number."""
         header = (
-            f"=== Turn {turn_count} ==="
+            f"=== Turn {turn_count} ===\n"
             if turn_count > 0
             else "=== Start of simulation ==="
         )
         print(header)
-
-    @staticmethod
-    def _print_game_logs() -> None:
-        """Prints all accumulated events messages."""
-        for message in game_logger.get_messages_and_clear():
-            print(message)
 
     @staticmethod
     def render_map(world_map: "Map") -> None:
