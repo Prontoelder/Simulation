@@ -52,6 +52,12 @@ class Map:
         """
         return self._entities.copy()
 
+    def get_creatures_count(self) -> tuple[int, int]:
+        """Return number of herbivores and predators on the map."""
+        herbivores = len(self.get_entity_by_type(EntityType.HERBIVORE))
+        predators = len(self.get_entity_by_type(EntityType.PREDATOR))
+        return herbivores, predators
+
     def is_valid_coord(self, x: int, y: int) -> bool:
         """Check if the coordinates are within the map bounds."""
         return 0 <= x < self.width and 0 <= y < self.height
