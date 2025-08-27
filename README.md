@@ -90,16 +90,37 @@ simulation/
 
 Edit `simulation/config.py` for experiments:
 
-- `map_width`, `map_height`: Map size (default: 15x10).
-- `initial_herbivores`, `initial_predators`: Starting counts (default: 6 herbivores, 3 predators).
-- `base_herbivore_hp`, `base_predator_hp`: Initial health (default: 100.0 each).
-- `grass_recovery_hp`: HP gained by herbivores eating grass (default: 25.0).
-- `predator_hp_gain_on_kill`: HP gained by predators on kill (default: 50.0).
-- `hunger_hp_loss_per_turn`: HP lost per turn due to hunger (default: 5.0).
-- `predator_attack_damage`: Damage dealt by predators (default: 50.0).
-- `herbivore_speed`, `predator_speed`: Movement speed (default: 1 for herbivores, 2 for predators).
-- `initial_grass_percent`, `initial_rock_percent`, `initial_tree_percent`: Initial map coverage (default: 10% each).
-- `initial_grass_regrowth_rate`: Grass regrowth probability per empty cell (default: 1%).
-- `herbivore_symbol`, `predator_symbol`, `grass_symbol`, `rock_symbol`, `tree_symbol`, `empty_cell_symbol`, `attack_symbol`: Map symbols (default: 🐰, 🐺, 🌿, 🗿, 🌳, 🟫, ⚔️).
-- `turn_delay`: Delay in auto mode (default: 1.8 seconds).
-- `show_column_and_row_numbers`: Show map grid numbers (default: False).
+Map Configuration
+- `map_width`, `map_height`: Map size (default: 15x10)
+
+Creature Initialization
+- `initial_herbivores`, `initial_predators`: Starting counts (default: 6 herbivores, 3 predators)
+
+Health Parameters
+- `base_herbivore_hp`, `base_predator_hp`: Initial health (default: 100.0 each)
+- `grass_recovery_hp`: HP gained by herbivores eating grass (default: 25.0)
+- `predator_hp_gain_on_kill`: HP gained by predators on kill (default: 50.0)
+
+Hunger System
+- `hunger_hp_loss_per_turn`: HP lost per turn due to hunger (default: 5.0)
+
+Combat Parameters
+- `predator_attack_damage`: Damage dealt by predators (default: 50.0)
+
+Movement Settings
+- `herbivore_speed`, `predator_speed`: Movement speed (default: 1 for herbivores, 2 for predators)
+
+Map Generation
+- `initial_grass_percent`, `initial_rock_percent`, `initial_tree_percent`: Initial map coverage (default: 10% each)
+- `initial_grass_regrowth_rate`: Grass regrowth probability per empty cell (default: 1%)
+
+Visual Symbols
+- `herbivore_symbol`, `predator_symbol`: Creature symbols (default: 🐰, 🐺)
+- `grass_symbol`, `rock_symbol`, `tree_symbol`: Environment symbols (default: 🌿, 🗿, 🌳)
+- `empty_cell_symbol`: Empty cell symbol (default: 🟫)
+- `attack_symbol`, `health_symbol`, `damage_symbol`, `death_symbol`: Action symbols (default: ⚔️, ❤️, 💥, 💀)
+
+Simulation Settings
+- `turn_delay`: Delay between turns in auto mode (default: 1.8 seconds)
+- `show_column_and_row_numbers`: Show map grid coordinates (default: False)
+- `max_logs_per_line`: Maximum number of logs of one type per line (default: 5)
