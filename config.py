@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class SimulationConfig:
     """Configuration for the simulation."""
 
@@ -42,12 +42,18 @@ class SimulationConfig:
     tree_symbol: str = "🌳"
     empty_cell_symbol: str = "🟫"
     attack_symbol: str = "⚔️"
+    health_symbol: str = "❤️"
+    damage_symbol: str = "💥"
+    death_symbol: str = "💀"
 
     # Simulation delay (seconds)
     turn_delay: float = 1.8
 
     # Show column and row numbers in rendering
     show_column_and_row_numbers: bool = False
+
+    # Maximum number of logs of one type in one line
+    max_logs_per_line: int = 5
 
 
 config = SimulationConfig()
