@@ -3,6 +3,7 @@ from logging import game_logger
 from random import choice
 from typing import TYPE_CHECKING
 
+from config import config
 from pathfinding import BFSPathFinder
 from world import Coordinate, Map
 
@@ -90,7 +91,7 @@ class Creature(Entity, ABC):
         if world_map.is_cell_empty(target_coord.x, target_coord.y):
             world_map.move_entity(start_coord, target_coord)
             game_logger.log(
-                f"MOVE: {self.symbol} at {start_coord} -> {target_coord}"
+                f"MOVE {self.symbol}: {start_coord} -> {target_coord}"
             )
             return True
         else:
@@ -113,6 +114,7 @@ class Creature(Entity, ABC):
             next_position = choice(available_moves)
             self._try_move(start_coord, next_position, world_map)
 
+    @property
     def is_alive(self) -> bool:
         """Check if the creature is alive."""
         return self.hp > 0
@@ -127,5 +129,6 @@ class Creature(Entity, ABC):
         self.hp += healed_amount
         if healed_amount > 0:
             game_logger.log(
-                f"HEAL: {self.symbol} recovered {healed_amount:.0f} HP."
+                f"HEAL: {self.symbol} {config.health_symbol}"
+                f" {healed_amount:.0f} HP"
             )
