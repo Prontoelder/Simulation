@@ -29,15 +29,15 @@ class AttackAction:
         target_entity.take_damage(damage)
 
         game_logger.log(
-            f"ATTACK: {attacker.symbol} at {from_coord} "
-            f"{config.attack_symbol}  {target_entity.symbol} "
-            f"at {target_coord} and deal {int(damage)} damage"
+            f"ATTACK: {attacker.symbol} {from_coord} "
+            f"{config.attack_symbol} {target_entity.symbol} "
+            f"{target_coord} {config.damage_symbol} {int(damage)}"
         )
 
-        if not target_entity.is_alive():
+        if not target_entity.is_alive:
             game_logger.log(
-                f"DEATH: {target_entity.symbol} at {target_coord} "
-                f"has been slain by {attacker.symbol}!"
+                f"DEATH (battle): {target_entity.symbol} {config.death_symbol}"
+                f" {target_coord} by {attacker.symbol}"
             )
             world_map.remove_entity(target_coord)
 
