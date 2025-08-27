@@ -1,8 +1,8 @@
 import os
-from logging import game_logger
 from typing import TYPE_CHECKING
 
 from config import config
+from sim_logging import game_logger
 from world import Coordinate
 
 if TYPE_CHECKING:

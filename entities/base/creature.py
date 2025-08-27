@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from logging import game_logger
 from random import choice
 from typing import TYPE_CHECKING
 
 from config import config
 from pathfinding import BFSPathFinder
+from sim_logging import game_logger
 from world import Coordinate, Map
 
 from .entity import Entity

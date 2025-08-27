@@ -1,8 +1,9 @@
 from typing import TYPE_CHECKING
 
-from actions.base import Action
+from actions import Action
 from config import config
 from entities import EntityFactory
+from sim_logging import game_logger
 from utils import EntityType, calculate_entity_counts
 
 if TYPE_CHECKING:
@@ -37,5 +38,8 @@ class PopulateMapAction(Action):
                 coord = world_map.find_random_empty_cell()
             except RuntimeError:
                 break
+            except ValueError as e:
+                game_logger.log(f"[Error]: {e}")
+                continue
             entity = EntityFactory.create_entity(entity_type)
             world_map.add_entity(coord, entity)

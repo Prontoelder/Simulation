@@ -1,9 +1,9 @@
-from logging import game_logger
 from random import random
 from typing import TYPE_CHECKING
 
 from actions import Action
 from config import config
+from sim_logging import game_logger
 from utils import EntityType
 from world import Coordinate
 

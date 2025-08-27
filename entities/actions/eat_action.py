@@ -1,7 +1,7 @@
-from logging import game_logger
 from typing import TYPE_CHECKING
 
 from config import config
+from sim_logging import game_logger
 
 if TYPE_CHECKING:
     from entities.base import Creature

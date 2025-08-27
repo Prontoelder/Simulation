@@ -1,9 +1,9 @@
-from logging import game_logger
 from typing import TYPE_CHECKING
 
 from actions import Action
 from config import config
 from entities.base import Creature
+from sim_logging import game_logger
 
 if TYPE_CHECKING:
     from world.map import Map
