@@ -28,7 +28,7 @@ class EatAction:
         eater.restore_hp(config.grass_recovery_hp)
 
         game_logger.log(
-            f"EAT: {eater.symbol} at {from_coord} ate {target_entity.symbol} "
-            f"at {target_coord}"
+            f"EAT: {eater.symbol} {from_coord} ate "
+            f"{target_entity.symbol} {target_coord}"
         )
         return True
