@@ -21,7 +21,6 @@ class SpawnGrassAction(Action):
         """Spawns grass on the random empty cells."""
         from entities.entity_factory import EntityFactory
 
-        grown_grass_coords = []
         for x in range(world_map.width):
             for y in range(world_map.height):
                 if (
@@ -33,9 +32,6 @@ class SpawnGrassAction(Action):
                         Coordinate(x, y),
                         grass,
                     )
-                    grown_grass_coords.append(f"({x}, {y})")
-        if grown_grass_coords:
-            coords_str = ", ".join(grown_grass_coords)
-            game_logger.log(
-                f"ADD: {config.grass_symbol} added to {coords_str}"
-            )
+                    game_logger.log(
+                        f"ADD: {config.grass_symbol} to ({x}, {y})"
+                    )
