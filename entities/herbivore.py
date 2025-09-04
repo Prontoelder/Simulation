@@ -15,12 +15,13 @@ class Herbivore(Creature):
     - Moves towards grass when not adjacent
     """
 
-    def __init__(self) -> None:
+    def __init__(self, path_finder=None) -> None:
         super().__init__(
             symbol=config.herbivore_symbol,
             entity_type=EntityType.HERBIVORE,
             speed=config.herbivore_speed,
             hp=config.base_herbivore_hp,
+            path_finder=path_finder,
         )
 
     def get_target_type(self) -> EntityType:
@@ -29,9 +30,9 @@ class Herbivore(Creature):
 
     def perform_action(
         self, start_coord: Coordinate, target_coord: Coordinate, world_map: Map
-    ) -> bool:
+    ) -> None:
         """Eat grass at target location."""
-        return EatAction.execute(self, start_coord, target_coord, world_map)
+        EatAction.execute(self, start_coord, target_coord, world_map)
 
     def get_movement_targets(
         self, world_map: Map, target_type: EntityType

@@ -12,13 +12,13 @@ if TYPE_CHECKING:
 class MapRenderer:
     """Class for rendering the game map."""
 
-    @staticmethod
-    def render_frame(world_map: "Map", turn_count: int) -> None:
+    @classmethod
+    def render_frame(cls, world_map: "Map", turn_count: int) -> None:
         """Prints the full simulation frame: header, logs, and map."""
-        MapRenderer._clear_console()
-        MapRenderer._print_header(turn_count)
+        cls._clear_console()
+        cls._print_header(turn_count)
         game_logger.print_game_logs()
-        MapRenderer.render_map(world_map)
+        cls.render_map(world_map)
 
     @staticmethod
     def _clear_console() -> None:

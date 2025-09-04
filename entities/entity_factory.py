@@ -1,4 +1,5 @@
 from entities.base import Entity
+from pathfinding import AStarPathFinder, BFSPathFinder
 from utils.enums import EntityType
 
 from .herbivore import Herbivore
@@ -9,7 +10,6 @@ from .static.tree import Tree
 
 
 class EntityFactory:
-    # Registry: a dictionary that associates entity types with their classes
     _registry: dict[EntityType, type] = {
         EntityType.HERBIVORE: Herbivore,
         EntityType.PREDATOR: Predator,
@@ -18,11 +18,21 @@ class EntityFactory:
         EntityType.TREE: Tree,
     }
 
+    _path_finders = {
+        EntityType.HERBIVORE: BFSPathFinder(),
+        EntityType.PREDATOR: AStarPathFinder(),
+    }
+
     @classmethod
     def create_entity(cls, entity_type: EntityType) -> Entity:
-        """
-        Creates and returns an instance of an entity of the specified type.
-        """
         if entity_type not in cls._registry:
             raise ValueError(f"Entity type {entity_type} is not registered")
-        return cls._registry[entity_type]()
+
+        # Obtain the corresponding pathfinding strategy
+        path_finder = cls._path_finders.get(entity_type, BFSPathFinder())
+
+        entity_class = cls._registry[entity_type]
+        try:
+            return entity_class(path_finder)
+        except TypeError:
+            return entity_class()

@@ -80,24 +80,31 @@ class Map:
 
     def move_entity(
         self, current_coord: Coordinate, target_coord: Coordinate
-    ) -> bool:
+    ) -> None:
         """
         Move an entity from one coordinate to another.
-        If the target cell is occupied,
-        the existing entity will be overwritten.
+        Preconditions must be satisfied by the caller:
+        - There must be an entity at current_coord.
+        - Target cell must be empty.
 
         Args:
             current_coord: Current coordinates of the entity
             target_coord: Target coordinates to move to
-        Returns:
-            True if movement was successful, False if no entity
-            at current coordinate
         """
-        entity_to_move = self._entities.pop(current_coord, None)
+        entity_to_move = self._entities.get(current_coord)
         if entity_to_move is None:
-            return False
+            raise ValueError(
+                f"No entity at {current_coord} to move"
+            )
+
+        if target_coord in self._entities:
+            raise ValueError(
+                f"Target cell {target_coord} is not empty"
+            )
+
+        # Safe move
+        self._entities.pop(current_coord)
         self._entities[target_coord] = entity_to_move
-        return True
 
     def get_neighbors_cells(self, coord: Coordinate) -> list[Coordinate]:
         """

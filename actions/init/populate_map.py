@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 class PopulateMapAction(Action):
     def execute(self, world_map: "Map") -> None:
         """Fills the map with entities"""
-        grass_count, rock_count, tree_count, _ = calculate_entity_counts(
+        grass_count, rock_count, tree_count = calculate_entity_counts(
             world_map.width, world_map.height
         )
         entities_to_place = [

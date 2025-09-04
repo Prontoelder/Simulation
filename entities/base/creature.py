@@ -17,24 +17,36 @@ class Creature(Entity, ABC):
     """Abstract base class for all creatures in the simulation."""
 
     def __init__(
-        self, symbol: str, entity_type: "EntityType", speed: int, hp: float
+        self,
+        symbol: str,
+        entity_type: "EntityType",
+        speed: int,
+        hp: float,
+        path_finder=None,
     ) -> None:
         super().__init__(symbol, entity_type)
         self.speed = speed
         self.max_hp = hp
         self.hp = hp
+        # Strategy for pathfinding (default: BFS)
+        self.path_finder = path_finder or BFSPathFinder()
 
-    def make_move(self, start_coord: Coordinate, world_map: Map) -> None:
-        """Template method for creature movement logic."""
+    def take_turn(self, start_coord: Coordinate, world_map: Map) -> None:
+        """Full turn: attempt an action, then move."""
         target_type = self.get_target_type()
 
         nearby_target = self._find_nearby_entity(
             start_coord, world_map, target_type
         )
-        if nearby_target and self.perform_action(
-            start_coord, nearby_target, world_map
-        ):
-            return
+        if nearby_target:
+            try:
+                self.perform_action(start_coord, nearby_target, world_map)
+                return
+            except ValueError as err:
+                game_logger.log(
+                    f"ACTION_FAIL: {self.symbol} at {start_coord} "
+                    f"-> {nearby_target}: {err}"
+                )
 
         target_coords = self.get_movement_targets(world_map, target_type)
         self._move_towards_targets(start_coord, world_map, target_coords)
@@ -45,7 +57,7 @@ class Creature(Entity, ABC):
     @abstractmethod
     def perform_action(
         self, start_coord: Coordinate, target_coord: Coordinate, world_map: Map
-    ) -> bool: ...
+    ) -> None: ...
 
     @abstractmethod
     def get_movement_targets(
@@ -73,33 +85,39 @@ class Creature(Entity, ABC):
     ) -> None:
         """Move creature towards targets or make random move."""
         if target_coords:
-            path = BFSPathFinder.find_nearest_target_path(
-                start_coord, world_map, target_coords
-            )
+            try:
+                path = self.path_finder.find_nearest_target_path(
+                    start_coord, world_map, target_coords
+                )
+            except NotImplementedError:
+                # Fallback to BFS if current strategy is not implemented
+                fallback = BFSPathFinder()
+                path = fallback.find_nearest_target_path(
+                    start_coord, world_map, target_coords
+                )
             if path and len(path) > 1:
                 steps = min(self.speed, len(path) - 1)
                 next_coord = path[steps]
-                if self._try_move(start_coord, next_coord, world_map):
+                try:
+                    self._move_to(start_coord, next_coord, world_map)
                     return
+                except ValueError as err:
+                    game_logger.log(
+                        f"MOVE_FAIL: {self.symbol} {start_coord} -> "
+                        f"{next_coord} error: {err}"
+                    )
 
         self._make_random_move(start_coord, world_map)
 
-    def _try_move(
+    def _move_to(
         self, start_coord: Coordinate, target_coord: Coordinate, world_map: Map
-    ) -> bool:
-        """Try to move to target coordinate. Return True if successful."""
-        if world_map.is_cell_empty(target_coord.x, target_coord.y):
-            world_map.move_entity(start_coord, target_coord)
-            game_logger.log(
-                f"MOVE {self.symbol}: {start_coord} -> {target_coord}"
-            )
-            return True
-        else:
-            game_logger.log(
-                f"MOVE_FAIL: {self.symbol} at {start_coord} "
-                f"cant move to {target_coord}, cell occupied."
-            )
-            return False
+    ) -> None:
+        """Move to target cell."""
+        if not world_map.is_cell_empty(target_coord.x, target_coord.y):
+            raise ValueError("target cell is occupied")
+
+        world_map.move_entity(start_coord, target_coord)
+        game_logger.log(f"MOVE {self.symbol}: {start_coord} -> {target_coord}")
 
     def _make_random_move(
         self, start_coord: Coordinate, world_map: Map
@@ -112,7 +130,13 @@ class Creature(Entity, ABC):
         ]
         if available_moves:
             next_position = choice(available_moves)
-            self._try_move(start_coord, next_position, world_map)
+            try:
+                self._move_to(start_coord, next_position, world_map)
+            except ValueError as err:
+                game_logger.log(
+                    f"MOVE_FAIL: {self.symbol} {start_coord} -> "
+                    f"{next_position} error: {err}"
+                )
 
     @property
     def is_alive(self) -> bool:

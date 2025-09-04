@@ -1,15 +1,15 @@
 from collections import deque
 
-from world import Coordinate, Map
+from .base import PathFinder
 
 
-class BFSPathFinder:
-    @staticmethod
+class BFSPathFinder(PathFinder):
     def find_nearest_target_path(
-        start_coord: Coordinate,
-        world_map: Map,
-        target_coords: list[Coordinate],
-    ) -> list[Coordinate] | None:
+        self,
+        start_coord,
+        world_map,
+        targets,
+    ) -> list | None:
         """
         Find the nearest path to a target coordinate using BFS.
         Returns:
@@ -23,7 +23,7 @@ class BFSPathFinder:
         while queue:
             current = queue.popleft()
 
-            if current in target_coords and current != start_coord:
+            if current in targets and current != start_coord:
                 # Restore path from target to start
                 path = []
                 path_node = current
@@ -39,7 +39,7 @@ class BFSPathFinder:
 
                 if (
                     world_map.is_cell_empty(neighbor.x, neighbor.y)
-                    or neighbor in target_coords
+                    or neighbor in targets
                 ):
                     came_from[neighbor] = current
                     queue.append(neighbor)

@@ -15,12 +15,13 @@ class Predator(Creature):
     - Moves towards herbivores when not adjacent
     """
 
-    def __init__(self) -> None:
+    def __init__(self, path_finder=None) -> None:
         super().__init__(
             symbol=config.predator_symbol,
             entity_type=EntityType.PREDATOR,
             speed=config.predator_speed,
             hp=config.base_predator_hp,
+            path_finder=path_finder,
         )
         self.attack_power = config.predator_attack_damage
 
@@ -30,9 +31,15 @@ class Predator(Creature):
 
     def perform_action(
         self, start_coord: Coordinate, target_coord: Coordinate, world_map: Map
-    ) -> bool:
+    ) -> None:
+        """Perform attack action (delegates to perform_attack_action)."""
+        self.perform_attack_action(start_coord, target_coord, world_map)
+
+    def perform_attack_action(
+        self, start_coord: Coordinate, target_coord: Coordinate, world_map: Map
+    ) -> None:
         """Attack herbivore at target location."""
-        return AttackAction.execute(self, start_coord, target_coord, world_map)
+        AttackAction.execute(self, start_coord, target_coord, world_map)
 
     def get_movement_targets(
         self, world_map: Map, target_type: EntityType

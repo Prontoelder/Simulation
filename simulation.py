@@ -152,7 +152,7 @@ class Simulation:
         herbivores, predators = self.world_map.get_creatures_count()
 
         if herbivores == 0:
-            return "All herbivores were eaten. Predators won!"
+            return "All herbivores died. Predators won!"
         if predators == 0:
             return "All predators died. Herbivores survived!"
         return "Simulation completed."

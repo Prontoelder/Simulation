@@ -15,7 +15,7 @@ class AttackAction:
         from_coord: "Coordinate",
         target_coord: "Coordinate",
         world_map: "Map",
-    ) -> bool:
+    ) -> None:
         """Attacker tries to attack creature at target_coord."""
         target_entity = world_map.get_entity(target_coord)
 
@@ -23,7 +23,7 @@ class AttackAction:
             not isinstance(target_entity, Creature)
             or target_entity.entity_type != attacker.get_target_type()
         ):
-            return False
+            raise ValueError("Invalid attack target at given coordinate")
 
         damage = getattr(attacker, "attack_power", 0)
         target_entity.take_damage(damage)
@@ -43,4 +43,3 @@ class AttackAction:
 
             if hasattr(attacker, "restore_hp") and damage > 0:
                 attacker.restore_hp(config.predator_hp_gain_on_kill)
-        return True
